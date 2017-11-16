@@ -44,8 +44,8 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
         
         commissionPercentage = commissionPercentage/100
-        self.activityIndicator.stopAnimating()
-        self.updateCurrencyUI()
+        activityIndicator.stopAnimating()
+        updateCurrencyUI()
         btnConFromEUR.isSelected = true
         btnConToUSD.isSelected = true
     }
@@ -206,7 +206,6 @@ class ViewController: UIViewController {
         return false
     }
     
-    
     func check(forBlanks textfield: UITextField) -> Bool {
         let rawString: String? = textfield.text
         let whitespace = CharacterSet.whitespacesAndNewlines
@@ -228,7 +227,7 @@ class ViewController: UIViewController {
     }
     
     func showConfirmationAlert() {
-        let alertView = UIAlertController(title: Constants.AlertTitle, message: "Free transanctions are over, now you will be charged with \(self.commissionPercentage * 100)% commission of the base currency to be converted. Press OK to proceed. ", preferredStyle: .alert)
+        let alertView = UIAlertController(title: Constants.AlertTitle, message: "Free transanctions are over, now you will be charged with \(commissionPercentage * 100)% commission of the base currency to be converted. Press OK to proceed. ", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: { (alert) in
             self.convertToDesiredCurrency()
         })
@@ -300,7 +299,7 @@ class ViewController: UIViewController {
             self.showAlert(withTitleAndMessage: Constants.AlertTitle, message: "The amount \(amt) \(fromCurrency) is sucessfully converted to \(val) \(toCurrency). Commison fee: \(commisionToBeDeduced)")
 
         }
-        self.updateCurrencyUI()
+        updateCurrencyUI()
     }
     
     func sucessFullTransanctionWithoutCommision(convertedValue val: String , convertedCurrency: String) {
@@ -349,7 +348,7 @@ class ViewController: UIViewController {
             }
             self.showAlert(withTitleAndMessage: Constants.AlertTitle, message: "The amount \(amt) \(fromCurrency) is sucessfully converted to \(val) \(toCurrency)")
         }
-        self.updateCurrencyUI()
+        updateCurrencyUI()
     }
 }
 
