@@ -79,7 +79,7 @@ class ViewController: UIViewController {
         
         let n : Float = Float(txtFieldAmount.text!) ?? 0.0
         
-        if checkForCurrencyBalance() {
+        if checkForCurrencyBalance(currentValue: n) {
             showAlert(withTitleAndMessage: Constants.AlertTitle, message: Constants.InsuffientFunds)
         } else if checkSameCurrencySelected() {
             showAlert(withTitleAndMessage: Constants.AlertTitle, message: Constants.SameCurrency)
@@ -181,13 +181,13 @@ class ViewController: UIViewController {
     
     // MARK: - Check For Currency Balance/ Selected Currency
     
-    func checkForCurrencyBalance() -> Bool{
+    func checkForCurrencyBalance(currentValue value:Float) -> Bool{
         
-        if btnConFromEUR.isSelected && eur > 0.0 {
+        if btnConFromEUR.isSelected && eur > 0.0 && value <= eur {
             return false
-        } else if btnConFromUSD.isSelected && usd > 0.0 {
+        } else if btnConFromUSD.isSelected && usd > 0.0 && value <= usd {
             return false
-        } else if btnConFromJPY.isSelected && jpy > 0.0 {
+        } else if btnConFromJPY.isSelected && jpy > 0.0 && value <= jpy {
             return false
         } else {
             return true
@@ -228,7 +228,7 @@ class ViewController: UIViewController {
     }
     
     func showConfirmationAlert() {
-        let alertView = UIAlertController(title: Constants.AlertTitle, message: "Free transanctions are over, now you will be charged with \(self.commissionPercentage)% commission of the base currency to be converted. Press OK to proceed. ", preferredStyle: .alert)
+        let alertView = UIAlertController(title: Constants.AlertTitle, message: "Free transanctions are over, now you will be charged with \(self.commissionPercentage * 100)% commission of the base currency to be converted. Press OK to proceed. ", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default, handler: { (alert) in
             self.convertToDesiredCurrency()
         })
@@ -255,11 +255,11 @@ class ViewController: UIViewController {
         if btnConFromEUR.isSelected {
             
             commisionToBeDeduced = (eur * commissionPercentage)
-            totalCommissionDeducted = totalCommissionDeducted + commisionToBeDeduced
             
             if (amt + commisionToBeDeduced) < eur {
                 updateValues = true
                 eur = eur - (amt + commisionToBeDeduced)
+                totalCommissionDeducted = totalCommissionDeducted + commisionToBeDeduced
             } else {
                 showAlert(withTitleAndMessage: Constants.AlertTitle, message: Constants.InsuffientFunds)
             }
@@ -267,22 +267,22 @@ class ViewController: UIViewController {
         } else if btnConFromUSD.isSelected {
             
             commisionToBeDeduced = (usd * commissionPercentage)
-            totalCommissionDeducted = totalCommissionDeducted + commisionToBeDeduced
             
             if (amt + commisionToBeDeduced) < usd {
                 updateValues = true
                 usd = usd - (amt + commisionToBeDeduced)
+                totalCommissionDeducted = totalCommissionDeducted + commisionToBeDeduced
             } else {
                 showAlert(withTitleAndMessage: Constants.AlertTitle, message: Constants.InsuffientFunds)
             }
         } else if btnConFromJPY.isSelected {
             
             commisionToBeDeduced = (jpy * commissionPercentage)
-            totalCommissionDeducted = totalCommissionDeducted + commisionToBeDeduced
             
             if (amt + commisionToBeDeduced) < jpy {
                 updateValues = true
                 jpy = jpy - (amt + commisionToBeDeduced)
+                totalCommissionDeducted = totalCommissionDeducted + commisionToBeDeduced
             } else {
                 showAlert(withTitleAndMessage: Constants.AlertTitle, message: Constants.InsuffientFunds)
             }
@@ -297,10 +297,10 @@ class ViewController: UIViewController {
             } else if btnConToJPY.isSelected {
                 jpy = jpy + Float(val)!
             }
+            self.showAlert(withTitleAndMessage: Constants.AlertTitle, message: "The amount \(amt) \(fromCurrency) is sucessfully converted to \(val) \(toCurrency). Commison fee: \(commisionToBeDeduced)")
+
         }
         self.updateCurrencyUI()
-        self.showAlert(withTitleAndMessage: Constants.AlertTitle, message: "The amount \(amt) \(fromCurrency) is sucessfully converted to \(val) \(toCurrency). Commison fee: \(commisionToBeDeduced)")
-
     }
     
     func sucessFullTransanctionWithoutCommision(convertedValue val: String , convertedCurrency: String) {
@@ -347,9 +347,9 @@ class ViewController: UIViewController {
             } else if btnConToJPY.isSelected {
                 jpy = jpy + Float(val)!
             }
+            self.showAlert(withTitleAndMessage: Constants.AlertTitle, message: "The amount \(amt) \(fromCurrency) is sucessfully converted to \(val) \(toCurrency)")
         }
         self.updateCurrencyUI()
-        self.showAlert(withTitleAndMessage: Constants.AlertTitle, message: "The amount \(amt) \(fromCurrency) is sucessfully converted to \(val) \(toCurrency)")
     }
 }
 

@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CurrencyConverter/Controllers/ViewController/ViewController.swift"
-            timestampString = "532540112.243426"
+            timestampString = "532542820.653925"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "btnConvertClicked(_:)"
+            startingLineNumber = "185"
+            endingLineNumber = "185"
+            landmarkName = "checkForCurrencyBalance(currentValue:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
